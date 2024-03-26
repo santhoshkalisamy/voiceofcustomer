@@ -1,9 +1,9 @@
 import './App.css'
 import {createBrowserRouter, RouterProvider} from "react-router-dom";
-import Home from "./routes/Home.tsx";
 import CreatePost from "./routes/CreatePost.tsx";
 import Layout from "./routes/Layout.tsx";
 import PostDetails from "./routes/PostDetails.tsx";
+import PostList from "./components/PostList.tsx";
 
 const router = createBrowserRouter([
     {
@@ -12,7 +12,7 @@ const router = createBrowserRouter([
         children: [
             {
                 index: true,
-                Component: Home,
+                Component: PostList,
             },
             {
                 path: "post",
@@ -24,6 +24,10 @@ const router = createBrowserRouter([
                     {
                         path: "new",
                         Component: CreatePost,
+                    },
+                    {
+                        path: "all",
+                        Component: PostList,
                     }
                 ],
             },
@@ -33,7 +37,6 @@ const router = createBrowserRouter([
 
 
 function App() {
-
     return (
         <RouterProvider router={router}></RouterProvider>
     )

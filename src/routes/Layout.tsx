@@ -4,6 +4,7 @@ import {useAuth0} from "@auth0/auth0-react";
 import {useEffect, useState} from "react";
 import {Outlet} from "react-router-dom";
 import Footer from "../components/Footer.tsx";
+import {Sidebar} from "../components/Sidebar.tsx";
 
 const Layout = () => {
     const {getAccessTokenSilently} = useAuth0();
@@ -23,12 +24,13 @@ const Layout = () => {
 
     return (
         <AuthContext.Provider value={token}>
-            <div className="max-w-screen mx-auto">
+            <div className="max-w-screen-2xl mx-auto">
                 <Navbar/>
-                <div className="flex flex-col h-screen justify-between items-center">
-                    <div><Outlet/></div>
-                    <div><Footer/></div>
+                <div><Sidebar/></div>
+                <div className="mt-20 pb-20 flex flex-col h-full justify-center items-center">
+                    <Outlet/>
                 </div>
+                <div><Footer/></div>
             </div>
         </AuthContext.Provider>
     );

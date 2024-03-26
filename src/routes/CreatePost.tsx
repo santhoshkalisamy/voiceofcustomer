@@ -3,6 +3,9 @@ import {z} from "zod";
 import {SubmitHandler, useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {SubmitPost} from "../services/PostService.ts";
+import {Button, Dialog, DialogBody, DialogFooter, DialogHeader} from "@material-tailwind/react";
+import {useState} from "react";
+import {useNavigate} from "react-router-dom";
 
 const PostForm = z.object({
     title: z.string().min(5, "Title must contain at least 5 character(s)").max(100),
@@ -19,23 +22,32 @@ const CreatePost = () => {
         resolver: zodResolver(PostForm)
     })
 
-    const submitHandler: SubmitHandler<PostFormType> = (data: PostFormType) => {
+    const [open, setOpen] = useState(false);
+    const [newPostId, setNewPostId] = useState<string | undefined>(undefined);
+    const handleOpen = () => setOpen(!open);
+
+    const navigate = useNavigate();
+
+    const submitHandler: SubmitHandler<PostFormType> = async (data: PostFormType) => {
         console.log(data);
-        SubmitPost({
+        const response = await SubmitPost({
             title: data.title,
             category: data.category,
             content: data.content,
             tags: data.tags?.split(",").map(tag => tag.trim())
-        }).then((result) => {
-            console.log(result)
-        }).catch(err => {
-            console.log(err);
         })
+        if (response) {
+            setNewPostId(response.data.id);
+            setOpen(true);
+        } else {
+            console.log("Failed to submit post");
+        }
     }
 
+
+
     return (
-        <div className="mt-52">
-            <div className="relative bg-gray-100 rounded-lg shadow w-screen max-w-screen-lg">
+            <div className="relative bg-gray-50 rounded-lg mt-20 w-screen max-w-screen-lg">
                 <div
                     className="flex items-center justify-between p-4 md:p-5 border-b rounded-t w-full max-w-screen-lg">
                     <h3 className="text-lg font-semibold text-gray-900">
@@ -59,10 +71,10 @@ const CreatePost = () => {
                             <select id="category" {...register("category")}
                                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5">
                                 <option value="" defaultValue="">Select a category</option>
-                                <option value="review">Review</option>
-                                <option value="feedback">Feedback</option>
-                                <option value="complaint">Complaint</option>
-                                <option value="misc">Misc</option>
+                                <option value="REVIEW">Review</option>
+                                <option value="FEEDBACK">Feedback</option>
+                                <option value="COMPLAINT">Complaint</option>
+                                <option value="MISC">Misc</option>
                             </select>
                             {errors.category && <p className="text-orange-700">{errors.category.message}</p>}
                         </div>
@@ -84,12 +96,38 @@ const CreatePost = () => {
                         </div>
                     </div>
                     <button type="submit"
-                            className="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                            className="text-white inline-flex items-center bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                         {isSubmitting ? "Please wait..." : "Post"}
                     </button>
                 </form>
+                <Dialog placeholder onPointerEnterCapture onPointerLeaveCapture
+                    open={open}
+                    handler={handleOpen}
+                    animate={{
+                        mount: { scale: 1, y: 0 },
+                        unmount: { scale: 0.9, y: -100 },
+                    }}
+                        size="xs"
+                >
+                    <DialogHeader placeholder onPointerEnterCapture onPointerLeaveCapture>Success</DialogHeader>
+                    <DialogBody placeholder onPointerEnterCapture onPointerLeaveCapture>
+                        Your post has been submitted.
+                    </DialogBody>
+                    <DialogFooter placeholder onPointerEnterCapture onPointerLeaveCapture>
+                        <Button placeholder onPointerEnterCapture onPointerLeaveCapture
+                            variant="text"
+                            color="red"
+                            onClick={() => { setOpen(!open) ; navigate("/")}}
+                            className="mr-1"
+                        >
+                            <span>Close</span>
+                        </Button>
+                        <Button placeholder onPointerEnterCapture onPointerLeaveCapture variant="gradient" color="green" onClick={() => { setOpen(!open) ; navigate(`/post/${newPostId}`)}}>
+                            <span>Go to my post</span>
+                        </Button>
+                    </DialogFooter>
+                </Dialog>
             </div>
-        </div>
     );
 };
 
