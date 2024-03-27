@@ -5,7 +5,8 @@ import {zodResolver} from "@hookform/resolvers/zod";
 import {SubmitPost} from "../services/PostService.ts";
 import {Button, Dialog, DialogBody, DialogFooter, DialogHeader} from "@material-tailwind/react";
 import {useState} from "react";
-import {useNavigate} from "react-router-dom";
+import {useNavigate, useSearchParams} from "react-router-dom";
+import {Post} from "../models/Post.ts";
 
 const PostForm = z.object({
     title: z.string().min(5, "Title must contain at least 5 character(s)").max(100),
@@ -18,8 +19,22 @@ const PostForm = z.object({
 type PostFormType = z.infer<typeof PostForm>
 
 const CreatePost = () => {
+
+    const [searchParams] = useSearchParams();
+
+    let post:Post|undefined = undefined;
+    if(searchParams.get("id") && localStorage.getItem("postToEdit")) {
+        post = JSON.parse(localStorage.getItem("postToEdit")!);
+    }
+
     const {register, handleSubmit, formState: {errors, isSubmitting}} = useForm<PostFormType>({
-        resolver: zodResolver(PostForm)
+        resolver: zodResolver(PostForm),
+        defaultValues: {
+            title: post ? post.title : "sdsds",
+            category: post ? post.category : "",
+            tags: post ? post.tags?.join(",") : "",
+            content: post ? post.content : ""
+        }
     })
 
     const [open, setOpen] = useState(false);
@@ -97,7 +112,7 @@ const CreatePost = () => {
                     </div>
                     <button type="submit"
                             className="text-white inline-flex items-center bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                        {isSubmitting ? "Please wait..." : "Post"}
+                        {isSubmitting ? "Please wait..." : post ? "Save" : "Post"}
                     </button>
                 </form>
                 <Dialog placeholder onPointerEnterCapture onPointerLeaveCapture
@@ -111,7 +126,7 @@ const CreatePost = () => {
                 >
                     <DialogHeader placeholder onPointerEnterCapture onPointerLeaveCapture>Success</DialogHeader>
                     <DialogBody placeholder onPointerEnterCapture onPointerLeaveCapture>
-                        Your post has been submitted.
+                        Your post has been {post ? "saved" : "submitted."}
                     </DialogBody>
                     <DialogFooter placeholder onPointerEnterCapture onPointerLeaveCapture>
                         <Button placeholder onPointerEnterCapture onPointerLeaveCapture

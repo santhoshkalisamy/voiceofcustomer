@@ -5,25 +5,39 @@ import {useEffect, useState} from "react";
 import {Outlet} from "react-router-dom";
 import Footer from "../components/Footer.tsx";
 import {Sidebar} from "../components/Sidebar.tsx";
+import {IdToken} from "@auth0/auth0-spa-js/src/global.ts";
 
 const Layout = () => {
-    const {getAccessTokenSilently} = useAuth0();
-    const [token, setToken] =
-        useState<null | string>(null);
+    const { getIdTokenClaims, isAuthenticated} = useAuth0();
+    const [token, setToken] = useState<IdToken | undefined>(undefined);
     useEffect(() => {
         const getAccessToken = async () => {
             try {
-                const token = await getAccessTokenSilently();
-                setToken(token);
+                if(isAuthenticated) {
+                    const token = await getIdTokenClaims();
+                    setToken(token);
+                    if(token && token.__raw) {
+                        localStorage.setItem("token", token!.__raw!);
+                    }
+                    fetch("http://localhost:8080/user/profile", {
+                        headers:{
+                            Authorization: `Bearer ${token?.__raw}`
+                        }
+                    }).then((response) => {
+                        console.log(response);
+                    }).catch((error) => {
+                        console.error(error);
+
+                    })
+                }
             } catch (e) {
                 console.error(e);
             }
         };
         getAccessToken();
-    }, [getAccessTokenSilently]);
+    }, [getIdTokenClaims, isAuthenticated]);
 
-    return (
-        <AuthContext.Provider value={token}>
+    return (<AuthContext.Provider value={token}>
             <div className="max-w-screen-2xl mx-auto">
                 <Navbar/>
                 <div><Sidebar/></div>
@@ -32,8 +46,7 @@ const Layout = () => {
                 </div>
                 <div><Footer/></div>
             </div>
-        </AuthContext.Provider>
-    );
+        </AuthContext.Provider>);
 };
 
 export default Layout;

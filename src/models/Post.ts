@@ -4,8 +4,10 @@ export interface Post {
     category: string,
     tags: string[] | undefined,
     content: string,
-    author?: string,
+    userId?:string,
+    userName?: string,
     postedOn?: Date,
     likeCount?: number,
-    comments?: number
+    commentCount?: number,
+    createdAt?: string,
 }

@@ -3,7 +3,8 @@ import {createBrowserRouter, RouterProvider} from "react-router-dom";
 import CreatePost from "./routes/CreatePost.tsx";
 import Layout from "./routes/Layout.tsx";
 import PostDetails from "./routes/PostDetails.tsx";
-import PostList from "./components/PostList.tsx";
+import WelcomePage from "./routes/WelcomePage.tsx";
+import AllPosts from "./routes/AllPosts.tsx";
 
 const router = createBrowserRouter([
     {
@@ -12,7 +13,11 @@ const router = createBrowserRouter([
         children: [
             {
                 index: true,
-                Component: PostList,
+                Component: AllPosts,
+            },
+            {
+                path: "welcome",
+                Component: WelcomePage,
             },
             {
                 path: "post",
@@ -27,7 +32,7 @@ const router = createBrowserRouter([
                     },
                     {
                         path: "all",
-                        Component: PostList,
+                        Component: AllPosts,
                     }
                 ],
             },
