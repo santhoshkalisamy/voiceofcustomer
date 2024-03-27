@@ -38,9 +38,9 @@ const Layout = () => {
     }, [getIdTokenClaims, isAuthenticated]);
 
     return (<AuthContext.Provider value={token}>
-            <div className="max-w-screen-2xl mx-auto">
+            <div className="w-screen">
                 <Navbar/>
-                <div><Sidebar/></div>
+                <div className="hidden 2xl:block"><Sidebar/></div>
                 <div className="mt-20 pb-20 flex flex-col h-full justify-center items-center">
                     <Outlet/>
                 </div>

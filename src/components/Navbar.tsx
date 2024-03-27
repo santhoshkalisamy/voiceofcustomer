@@ -39,14 +39,14 @@ const Navbar = () => {
 
     return (
         <header  className="z-50 fixed w-screen top-0 left-0 bg-gray-800 text-white py-5">
-            <nav className="flex flex-row mx-auto max-w-screen-2xl items-center justify-between">
+            <nav className="flex flex-row md:mx-auto max-w-screen-2xl items-center md:justify-between">
             <div>
                 <h1 className="font-extrabold">
                     <Link to="/">Voice of Consumer</Link>
                 </h1>
             </div>
             <div className="relative">
-                <input onChange={(e) => debouncedHandleSearch(e)} className="text-blue-800 border-gray-400 h-10 w-96 border rounded-lg px-2 pl-10" placeholder="Search"
+                <input onChange={(e) => debouncedHandleSearch(e)} className="text-blue-800 border-gray-400 h-10 w-28 md:w-96 border rounded-lg px-2 pl-10" placeholder="Search"
                        type="text"/>
                 <FontAwesomeIcon icon={faMagnifyingGlass}
                                  className="text-blue-800 absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4"/>
@@ -60,11 +60,11 @@ const Navbar = () => {
                 </div>
             </div>
 
-            <div className="flex flex-row space-x-10 justify-center items-center">
+            <div className="flex flex-row md:space-x-10 justify-center items-center">
                 <div>
-                    <Link to="/post/new" className="px-4 py-2 bg-green-500 hover:bg-green-600 text-white rounded mr-4">
+                    <Link to="/post/new" className="md:px-4 py-2 bg-green-500 hover:bg-green-600 text-white rounded mr-4">
                         <FontAwesomeIcon icon={faPlus} className="mr-2"/>
-                        Create Post
+                        <span className="hidden md:inline">Create Post</span>
                     </Link>
                 </div>
                 <div>

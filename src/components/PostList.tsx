@@ -193,9 +193,9 @@ const PostList = ({category, search, tags}:PostListProps) => {
 
     return (
         <div className="flex flex-col gap-y-5 justify-between items-center">
-        <div className="mt-20 grid grid-cols-3 gap-5 space-y-8 flex-grow-0">
+        <div className="mt-20 grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 gap-5 space-y-8 flex-grow-0">
             {posts.map((post) => (
-                <Card placeholder onPointerEnterCapture onPointerLeaveCapture className="w-96 border border-green-100">
+                <Card placeholder onPointerEnterCapture onPointerLeaveCapture className="w-72 border border-green-100">
                     <CardHeader placeholder onPointerEnterCapture onPointerLeaveCapture color="gray"
                                 className="border bg-green-800 border-green-500 text-white text-xl relative h-12 flex items-center justify-center">
                         <h1>{post.category.toLowerCase()}</h1>
