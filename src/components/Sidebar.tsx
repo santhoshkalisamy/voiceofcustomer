@@ -56,14 +56,15 @@ export function Sidebar() {
     }
 
     return (
-        <aside className="fixed top-0 right-0 mt-32 bg-gray-200 w-1/6 mr-20 flex-shrink-0 h-4/5">
+        <aside className="fixed overflow-scroll top-0 right-0 mt-32 bg-gray-200 w-1/6 mr-20 flex-shrink-0 h-4/5">
             <Card onPointerEnterCapture={""} onPointerLeaveCapture={""} placeholder={""}
-                  className="h-full w-full p-4 shadow-xl shadow-blue-gray-900/5 bg-gray-100">
-                <div className="mb-2 flex items-center gap-4 p-4">
+                  className="w-full p-4 shadow-xl shadow-blue-gray-900/5 bg-gray-100">
+                <div className="mb-2 flex items-center justify-between gap-4 p-4">
                     <Typography onPointerEnterCapture={""} onPointerLeaveCapture={""} placeholder={""} variant="h5"
                                 color="blue-gray">
                         Filters
                     </Typography>
+                    <Button placeholder onPointerEnterCapture onPointerLeaveCapture color="green" ripple={true} onClick={handleSubmit}>Apply</Button>
                 </div>
                 <div className="p-2">
                     <Input onChange={handleSearchBox} icon={<MagnifyingGlassIcon className="h-5 w-5"/>} label="Search"
@@ -95,7 +96,6 @@ export function Sidebar() {
                         </div>
                     </div>
                 </div>
-                <Button placeholder onPointerEnterCapture onPointerLeaveCapture color="green" ripple={true} onClick={handleSubmit}>Apply</Button>
             </Card>
         </aside>
     );
