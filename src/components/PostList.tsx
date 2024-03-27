@@ -76,7 +76,7 @@ const PostList = ({category, search, tags}:PostListProps) => {
     const  {isAuthenticated, user} = useAuth0();
      const pageSize = 5;
      const  navigate = useNavigate();
-     const [postToDelete, setPostToDelete] = useState<Post>(null);
+     const [postToDelete, setPostToDelete] = useState<Post | null>(null);
      const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
     const handleOpen = (value:boolean) => setDeleteDialogOpen(value);
     const [posts, setPosts] = useState<Post[]>([]);
@@ -174,14 +174,16 @@ const PostList = ({category, search, tags}:PostListProps) => {
         console.log("deleting post");
         console.log(postToDelete);
         handleOpen(false);
-        DeletePost(postToDelete.id!).then((response) => {
-            console.log(response.data);
-            const updatedPosts = posts.filter((post) => post.id !== postToDelete.id);
-            setPosts(updatedPosts);
-        } ).catch((err) => {
-            console.error(err);
+        if(postToDelete) {
+            DeletePost(postToDelete.id!).then((response) => {
+                console.log(response.data);
+                const updatedPosts = posts.filter((post) => post.id !== postToDelete?.id);
+                setPosts(updatedPosts);
+            }).catch((err) => {
+                console.error(err);
 
-        });
+            });
+        }
     }
 
     function handleEdit(post: Post) {
@@ -334,7 +336,7 @@ const PostList = ({category, search, tags}:PostListProps) => {
                     <Button placeholder onPointerEnterCapture onPointerLeaveCapture
                         variant="gradient"
                         color="green"
-                        onClick={() => handleOpen(null)}
+                        onClick={() => handleOpen(false)}
                     >
                         <span>No</span>
                     </Button>
