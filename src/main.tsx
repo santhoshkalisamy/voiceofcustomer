@@ -8,7 +8,7 @@ import {ThemeProvider} from "@material-tailwind/react";
 const DOMAIN = import.meta.env.VITE_AUTH0_DOMAIN;
 const CLIENT_ID = import.meta.env.VITE_AUTH0_CLIENT_ID;
 const authParams = {
-    redirect_uri: "http://localhost:5173/"
+    redirect_uri: "https://voiceofcustomer.vercel.app/"
 }
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
