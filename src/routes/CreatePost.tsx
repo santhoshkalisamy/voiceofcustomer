@@ -54,19 +54,18 @@ const CreatePost = () => {
         if (response) {
             setNewPostId(response.data.id);
             setOpen(true);
+            localStorage.removeItem("postToEdit");
         } else {
             console.log("Failed to submit post");
         }
     }
-
-
 
     return (
             <div className="relative bg-gray-50 rounded-lg mt-20 w-screen max-w-screen-lg">
                 <div
                     className="flex items-center justify-between p-4 md:p-5 border-b rounded-t w-full max-w-screen-lg">
                     <h3 className="text-lg font-semibold text-gray-900">
-                        Create new post
+                        {post ? "Edit post" : "Create new post"}
                     </h3>
 
                 </div>

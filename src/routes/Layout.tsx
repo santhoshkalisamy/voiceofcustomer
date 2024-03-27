@@ -19,7 +19,7 @@ const Layout = () => {
                     if(token && token.__raw) {
                         localStorage.setItem("token", token!.__raw!);
                     }
-                    fetch("https://seashell-app-ppv84.ondigitalocean.app/user/profile", {
+                    fetch(`${import.meta.env.VITE_BACKEND_URL}/user/profile`, {
                         headers:{
                             Authorization: `Bearer ${token?.__raw}`
                         }
@@ -27,7 +27,6 @@ const Layout = () => {
                         console.log(response);
                     }).catch((error) => {
                         console.error(error);
-
                     })
                 }
             } catch (e) {

@@ -3,10 +3,11 @@ import axios from "axios";
 import {GetAllPostsResponse} from "../models/GetAllPostsResponse.ts";
 import {Reaction} from "../models/Reaction.ts";
 import {PopularTag} from "../models/PopularTag.ts";
+import {Comment} from "../models/Comment.ts";
 
 function getAxiosClient() {
     return axios.create({
-        baseURL: "https://seashell-app-ppv84.ondigitalocean.app"
+        baseURL: import.meta.env.VITE_BACKEND_URL,
     })
 }
 
@@ -24,6 +25,18 @@ export const ReactToPost = (reaction: {reactionType:string, postId:string}) => {
             "Authorization": `Bearer ${localStorage.getItem("token")}`
         }
     });
+}
+
+export const AddCommentToPost = (comment:Comment) => {
+    return getAxiosClient().post<Reaction>(`/post/${comment.postId}/comment`, comment, {
+        headers: {
+            "Authorization": `Bearer ${localStorage.getItem("token")}`
+        }
+    });
+}
+
+export const GetAllComments = (comment:Comment) => {
+    return getAxiosClient().get<Comment[]>(`/post/${comment.postId}/comment`);
 }
 
 export const GetAllPosts = (pageSize:number, pageNumber:number) => {
