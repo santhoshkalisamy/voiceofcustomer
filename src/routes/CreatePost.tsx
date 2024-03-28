@@ -30,7 +30,7 @@ const CreatePost = () => {
     const {register, handleSubmit, formState: {errors, isSubmitting}} = useForm<PostFormType>({
         resolver: zodResolver(PostForm),
         defaultValues: {
-            title: post ? post.title : "sdsds",
+            title: post ? post.title : "",
             category: post ? post.category : "",
             tags: post ? post.tags?.join(",") : "",
             content: post ? post.content : ""
