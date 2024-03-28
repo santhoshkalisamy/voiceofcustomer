@@ -229,9 +229,9 @@ const PostList = ({category, search, tags}:PostListProps) => {
                         </Typography>
                     </CardBody>
                     <CardFooter placeholder onPointerEnterCapture onPointerLeaveCapture className="pt-0">
-                        <Button className="w-full" placeholder onPointerEnterCapture onPointerLeaveCapture>
-                            <Link to={`/post/${post.id}`}>Read More</Link>
-                        </Button>
+                            <Link to={`/post/${post.id}`}><Button className="w-full" placeholder onPointerEnterCapture onPointerLeaveCapture>
+                                Read More</Button></Link>
+
                         <div className="flex flex-row justify-evenly mt-5">
                             <Popover dismiss = {{
                                 enabled: true,
@@ -261,7 +261,7 @@ const PostList = ({category, search, tags}:PostListProps) => {
                                     </div>
                                 </PopoverContent>
                             </Popover>
-                            <Button className="p-0 px-0 border-0" disabled={!isAuthenticated} variant="outlined" placeholder onPointerEnterCapture
+                            <Button onClick={() => navigate(`/post/${post.id}`)} className="p-0 px-0 border-0" disabled={!isAuthenticated} variant="outlined" placeholder onPointerEnterCapture
                                     onPointerLeaveCapture>Comments ({post.commentCount})</Button>
                             {isAuthenticated && post.userId === user?.sub &&
                             <div className="flex flex-row gap-5 items-center">
