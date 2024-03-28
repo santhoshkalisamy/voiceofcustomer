@@ -88,6 +88,10 @@ export function Sidebar() {
                         </Typography>
                         <div className="flex flex-col gap-2">
                             <Textarea onChange={handleTagsSelection} variant="outlined" onPointerEnterCapture onPointerLeaveCapture color="green" label="add comma seperated tags" />
+                            <Typography onPointerEnterCapture={""} onPointerLeaveCapture={""} placeholder={""} variant="h5"
+                                        color="blue-gray">
+                                Popular Tags
+                            </Typography>
                             <ul>
                                 {popularTags.map((tag, index) => (
                                     <li key={index} onClick={() => setUserTags([...userTags, tag.tag])} className="text-gray-600 px-4 py-2 hover:bg-gray-100">{tag.tag} ({ tag.count})</li>
